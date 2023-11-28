@@ -1,6 +1,7 @@
 from flask import jsonify, request, Blueprint
 from extensions import db
 from database.database import Product
+from random import sample
 
 products_crud = Blueprint('products_crud', __name__)
 
@@ -42,3 +43,13 @@ def delete_product(product_id):
     db.session.delete(product)
     db.session.commit()
     return jsonify({'result': True})
+
+
+@products_crud.route('/products/random', methods=['GET'])
+def get3_random_products():
+    products = Product.query.all()
+    if len(products) < 3:
+        return jsonify({'error': 'Not enough products'}), 400
+
+    random_products = sample(products, 3)
+    return jsonify({'products': [product.to_dict() for product in random_products]})
