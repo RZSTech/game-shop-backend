@@ -15,7 +15,7 @@ def get_products():
 @products_crud.route('/products', methods=['POST'])
 def create_product():
     data = request.json
-    new_product = Product(name=data['name'], description=data['description'], price=data['price'], available=data['available'])
+    new_product = Product(name=data['name'], description=data['description'], price=data['price'], available=data['available'], image=data['image'])
     db.session.add(new_product)
     db.session.commit()
 
