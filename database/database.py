@@ -1,3 +1,4 @@
+import uuid
 from extensions import db
 from sqlalchemy import Numeric
 
@@ -77,12 +78,16 @@ class Order(db.Model):
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))
+    product_id = db.Column(db.String(36), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(100), nullable=False)
 
     def to_dict(self):
         return {
             'id': self.id,
+            'order_id': self.order_id,
+            'product_id': self.product_id,
             'name': self.name,
             'status': self.status
         }

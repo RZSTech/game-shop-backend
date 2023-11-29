@@ -18,7 +18,7 @@ def create_order():
     if 'name' not in data or 'status' not in data:
         return jsonify({'error': 'Both "name" and "status" fields are required'}), 400
 
-    new_order = Order(name=data['name'], status=data['status'])
+    new_order = Order(name=data['name'], status=data['status'], product_id=data['product_id'])
     db.session.add(new_order)
     db.session.commit()
 
