@@ -35,7 +35,7 @@ def format_endpoints(endpoints):
         if blueprint != last_blueprint:
             if last_blueprint is not None:
                 formatted_endpoints += "\n"
-            formatted_endpoints += f"Blueprint: {blueprint}\n"
+            formatted_endpoints += f"Endpoint group: {blueprint}\n"
             last_blueprint = blueprint
         formatted_endpoints += f"  - Method: {method}, Endpoint: {endpoint}, Function: {function}\n"
 
