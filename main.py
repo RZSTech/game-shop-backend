@@ -1,10 +1,8 @@
 from flask import Flask
 from extensions import db
-from base_operations.products_crud import products_crud
-from login.login_controller import login_controller
-from login.register_controller import register_controller
 from flask_cors import CORS
 from login.flask_login import init_login_manager
+from blueprints import run_blueprints
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///products.db'
@@ -13,10 +11,7 @@ db.init_app(app)
 init_login_manager(app)
 CORS(app)
 
-
-app.register_blueprint(products_crud)
-app.register_blueprint(login_controller)
-app.register_blueprint(register_controller)
+run_blueprints(app)
 
 
 if __name__ == '__main__':
