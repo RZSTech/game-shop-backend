@@ -8,23 +8,38 @@ def extract_endpoints(file_path):
 
     endpoints = []
     for i, line in enumerate(content):
-        if '@products_crud.route' in line:
-            pattern = r"@products_crud.route\('(.*?)'[,\)]"
-            match = re.search(pattern, line)
-            method_pattern = r"methods=\['(GET|POST|PUT|DELETE)'\]"
-            method_match = re.search(method_pattern, line)
+        pattern = r"@(\w+)\.route\('(.*?)'[,\)]"
+        match = re.search(pattern, line)
+        method_pattern = r"methods=\['(GET|POST|PUT|DELETE)'\]"
+        method_match = re.search(method_pattern, line)
 
-            if i + 1 < len(content):
-                function_pattern = r"def (\w+)"
-                function_match = re.search(function_pattern, content[i + 1])
+        if i + 1 < len(content):
+            function_pattern = r"def (\w+)"
+            function_match = re.search(function_pattern, content[i + 1])
 
-            if match and method_match and function_match:
-                endpoint = match.group(1)
-                http_method = method_match.group(1)
-                function_name = function_match.group(1)
-                endpoints.append((endpoint, http_method, function_name))
+        if match and method_match and function_match:
+            blueprint = match.group(1)
+            endpoint = match.group(2)
+            http_method = method_match.group(1)
+            function_name = function_match.group(1)
+            endpoints.append((blueprint, http_method, endpoint, function_name))
 
-    return endpoints
+    return sorted(endpoints)
+
+
+def format_endpoints(endpoints):
+    formatted_endpoints = ""
+    last_blueprint = None
+
+    for blueprint, method, endpoint, function in endpoints:
+        if blueprint != last_blueprint:
+            if last_blueprint is not None:
+                formatted_endpoints += "\n"
+            formatted_endpoints += f"Blueprint: {blueprint}\n"
+            last_blueprint = blueprint
+        formatted_endpoints += f"  - Method: {method}, Endpoint: {endpoint}, Function: {function}\n"
+
+    return formatted_endpoints
 
 
 def main():
@@ -37,10 +52,11 @@ def main():
                 full_path = os.path.join(root, file)
                 endpoints.extend(extract_endpoints(full_path))
 
+    formatted_endpoints = format_endpoints(endpoints)
+
     output_file = 'endpoints_summary.txt'
     with open(output_file, 'w') as file:
-        for endpoint, method, function in set(endpoints):
-            file.write(f"Endpoint: {endpoint}, Method: {method}, Function: {function}\n")
+        file.write(formatted_endpoints)
 
     print(f"Results saved in {output_file}")
 
