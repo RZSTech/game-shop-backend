@@ -1,0 +1,29 @@
+name: Build and test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.14'
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.10.12
+      
+      - name: Install requirements
+        run: |
+          python3 -m pip install -r requirements.txt
+
+      - name: Build
+        run: | 
+          python3 main.py &
+          PID=$!
+          sleep 5
+          kill $PID
+      
