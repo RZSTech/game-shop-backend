@@ -22,3 +22,4 @@ def login():
         print(token)
         return jsonify({'status': 'success', 'token': token}), 200
     return {'status': 'failed', 'message': 'Invalid credentials'}, 401
+
