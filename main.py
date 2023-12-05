@@ -1,7 +1,7 @@
 from flask import Flask
 from extensions import db
 from flask_cors import CORS
-from login.flask_login import init_login_manager
+from authorization.flask_login import init_login_manager
 from blueprints import run_blueprints
 
 app = Flask(__name__)

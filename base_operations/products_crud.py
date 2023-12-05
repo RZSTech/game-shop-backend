@@ -2,12 +2,14 @@ from flask import jsonify, request, Blueprint
 from extensions import db
 from database.database import Product
 from random import sample
+from authorization.jwt_verification import token_required
 
 products_crud = Blueprint('products_crud', __name__)
 
 
 @products_crud.route('/products', methods=['GET'])
-def get_products():
+@token_required
+def get_products(current_user):
     products = Product.query.all()
     return jsonify({'products': [product.to_dict() for product in products]})
 

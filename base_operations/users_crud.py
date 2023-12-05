@@ -1,6 +1,6 @@
 from flask import jsonify, request, Blueprint
 from extensions import db
-from login.user_model import User
+from authorization.user_model import User
 from random import sample
 
 users_crud = Blueprint('users_crud', __name__)
@@ -9,6 +9,7 @@ users_crud = Blueprint('users_crud', __name__)
 def get_users():
     users = User.query.all()
     return jsonify({'users': [user.to_dict() for user in users]})
+
 
 @users_crud.route('/users/<string:username>', methods=['GET'])
 def get_user(username):
