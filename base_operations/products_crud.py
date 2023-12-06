@@ -2,17 +2,19 @@ from flask import jsonify, request, Blueprint
 from extensions import db
 from database.database import Product
 from random import sample
+from authorization.jwt_verification import token_required
 
 products_crud = Blueprint('products_crud', __name__)
 
 
 @products_crud.route('/products', methods=['GET'])
-def get_products():
+def get_products(current_user):
     products = Product.query.all()
     return jsonify({'products': [product.to_dict() for product in products]})
 
 
 @products_crud.route('/products', methods=['POST'])
+@token_required
 def create_product():
     data = request.json
     new_product = Product(name=data['name'], description=data['description'], price=data['price'], available=data['available'], image=data['image'])
@@ -23,6 +25,7 @@ def create_product():
 
 
 @products_crud.route('/products/<int:product_id>', methods=['PUT'])
+@token_required
 def update_product(product_id):
     product = Product.query.get(product_id)
     if not product:
@@ -36,6 +39,7 @@ def update_product(product_id):
 
 
 @products_crud.route('/products/<int:product_id>', methods=['DELETE'])
+@token_required
 def delete_product(product_id):
     product = Product.query.get(product_id)
     if not product:
