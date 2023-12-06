@@ -8,14 +8,14 @@ products_crud = Blueprint('products_crud', __name__)
 
 
 @products_crud.route('/products', methods=['GET'])
-def get_products(current_user):
+def get_products():
     products = Product.query.all()
     return jsonify({'products': [product.to_dict() for product in products]})
 
 
 @products_crud.route('/products', methods=['POST'])
 @token_required
-def create_product():
+def create_product(current_user):
     data = request.json
     new_product = Product(name=data['name'], description=data['description'], price=data['price'], available=data['available'], image=data['image'])
     db.session.add(new_product)
@@ -26,7 +26,7 @@ def create_product():
 
 @products_crud.route('/products/<int:product_id>', methods=['PUT'])
 @token_required
-def update_product(product_id):
+def update_product(product_id, current_user):
     product = Product.query.get(product_id)
     if not product:
         return jsonify({'error': 'Product not found'}), 404
@@ -40,7 +40,7 @@ def update_product(product_id):
 
 @products_crud.route('/products/<int:product_id>', methods=['DELETE'])
 @token_required
-def delete_product(product_id):
+def delete_product(product_id, current_user):
     product = Product.query.get(product_id)
     if not product:
         return jsonify({'error': 'Product not found'}), 404

@@ -15,7 +15,7 @@ def get_users():
 
 @users_crud.route('/users/<string:username>', methods=['GET'])
 @token_required
-def get_user(username):
+def get_user(username, current_user):
     user = User.query.filter_by(username=username).first()
     if not user:
         return jsonify({'error': 'User not found'}), 404
@@ -25,7 +25,7 @@ def get_user(username):
 
 @users_crud.route('/users', methods=['POST'])
 @token_required
-def create_user():
+def create_user(current_user):
     data = request.json
     new_user = User(username=data['username'], email=data['email'])
     new_user.set_password(password=data['password'])
@@ -37,7 +37,7 @@ def create_user():
 
 @users_crud.route('/users/<int:user_id>', methods=['PUT'])
 @token_required
-def update_user(user_id):
+def update_user(user_id, current_user):
     user = User.query.get(user_id)
     if not user:
         return jsonify({'error': 'User not found'}), 404
@@ -52,7 +52,7 @@ def update_user(user_id):
 
 @users_crud.route('/users/<int:user_id>', methods=['DELETE'])
 @token_required
-def delete_user(user_id):
+def delete_user(user_id, current_user):
     user = User.query.get(user_id)
     if not user:
         return jsonify({'error': 'User not found'}), 404
