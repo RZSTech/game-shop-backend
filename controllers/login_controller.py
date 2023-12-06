@@ -2,8 +2,8 @@ from flask import jsonify, request, Blueprint
 import jwt
 import datetime
 from flask_login import login_user
-from authorization.user_model import User
-SECRET_KEY = "12345"           # TODO we need to set secret key as environment variable
+from models.user_model import User
+SECRET_KEY = "12345"            # TODO we need to set secret key as environment variable
 login_controller = Blueprint('login_controller', __name__)
 
 

@@ -1,7 +1,7 @@
 from flask import jsonify, request, Blueprint
 from extensions import db
-from authorization.user_model import User
-from authorization.jwt_verification import token_required
+from middlewares.jwt_verification import token_required
+from models.user_model import User
 
 users_crud = Blueprint('users_crud', __name__)
 
@@ -19,6 +19,7 @@ def get_user(username):
     user = User.query.filter_by(username=username).first()
     if not user:
         return jsonify({'error': 'User not found'}), 404
+
     return jsonify(user.to_dict())
 
 
@@ -55,6 +56,7 @@ def delete_user(user_id):
     user = User.query.get(user_id)
     if not user:
         return jsonify({'error': 'User not found'}), 404
+
     db.session.delete(user)
     db.session.commit()
     return jsonify({'result': True})

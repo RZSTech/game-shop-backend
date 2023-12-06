@@ -1,5 +1,5 @@
 from flask import jsonify, request, Blueprint
-from authorization.user_model import User
+from models.user_model import User
 from extensions import db
 
 

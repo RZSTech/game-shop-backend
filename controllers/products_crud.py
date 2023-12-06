@@ -1,8 +1,8 @@
 from flask import jsonify, request, Blueprint
 from extensions import db
-from database.database import Product
+from models.database import Product
 from random import sample
-from authorization.jwt_verification import token_required
+from middlewares.jwt_verification import token_required
 
 products_crud = Blueprint('products_crud', __name__)
 

@@ -1,8 +1,8 @@
-from base_operations.products_crud import products_crud
-from base_operations.users_crud import users_crud
-from base_operations.order_crd import order_crd
-from authorization.login_controller import login_controller
-from authorization.register_controller import register_controller
+from controllers.products_crud import products_crud
+from controllers.users_crud import users_crud
+from controllers.order_crd import order_crd
+from controllers.login_controller import login_controller
+from controllers.register_controller import register_controller
 
 
 def run_blueprints(app):
