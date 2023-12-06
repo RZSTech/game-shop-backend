@@ -2,5 +2,5 @@ flask
 flask_sqlalchemy
 flask_cors
 flask_login
-request==2.26.0
+request>=2.26.0
 jwt
