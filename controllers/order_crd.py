@@ -1,6 +1,6 @@
 from flask import jsonify, request, Blueprint
 from extensions import db
-from database.database import Order
+from models.database import Order
 
 order_crd = Blueprint('order_crd', __name__)
 

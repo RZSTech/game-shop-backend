@@ -2,7 +2,7 @@ from flask import request, jsonify
 import jwt
 from jwt import ExpiredSignatureError
 from functools import wraps
-from authorization.user_model import User
+from models.user_model import User
 
 SECRET_KEY = "12345"
 

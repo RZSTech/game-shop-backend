@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import requests
 from bs4 import BeautifulSoup
-from database.database import Product
+from models.database import Product
 
 
 engine = create_engine('sqlite:///instance/products.db')
