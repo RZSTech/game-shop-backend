@@ -3,7 +3,7 @@ import jwt
 import datetime
 from flask_login import login_user
 from authorization.user_model import User
-SECRET_KEY = "12345"
+SECRET_KEY = "12345"           # TODO we need to set secret key as environment variable
 login_controller = Blueprint('login_controller', __name__)
 
 
@@ -23,7 +23,6 @@ def login():
                 'user_id': user.id,
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
             }, SECRET_KEY, algorithm='HS256')
-            print(token)
             return jsonify({'status': 'success', 'token': token}), 200
     except Exception as e:
         print(f"Error encoding JWT: {e}")
